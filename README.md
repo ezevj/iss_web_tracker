@@ -14,8 +14,6 @@ Geolocalización: Traduce las coordenadas de latitud y longitud a una ubicación
 
 Diseño Responsivo y Estético: Interfaz moderna, con fondo de temática espacial y completamente adaptable a dispositivos móviles.
 
-🛠️ Tecnologías Utilizadas
-
 Categoría
 
 Herramienta
