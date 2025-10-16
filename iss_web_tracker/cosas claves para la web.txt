@@ -1,0 +1,13 @@
+clavo en la terminal para activar la ruta : python app.py
+
+ip de la web : http://127.0.0.1:5000/
+
+ideas para mejorar la pagina web :
+
+-mapa interactivo de donde se encuentra la iss.
+
+-datos sobre las personas a bordo o reguistros de fotos , investigaciones , etc.
+
+-apartado de fotos tomadas por la iss.
+
+-aparatdo donde diga datos mios como creador de la pagina.

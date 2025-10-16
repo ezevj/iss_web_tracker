@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rastreador en Vivo de la ISS</title>
+   
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Space+Mono&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0d1117; 
+            color: #c9d1d9; 
+            
+            
+            background-image: url('https://placehold.co/1920x1080/0d1117/0d1117?text='); 
+            background-size: cover; 
+            background-attachment: fixed; 
+            background-position: center; 
+        }
+
+        
+        .overlay-bg {
+             
+            background-image: url('https://images.unsplash.com/photo-1502134249126-9f3755a50d78?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+            background-size: cover; 
+            background-attachment: fixed;
+        }
+
+
+        .data-container {
+            background-color: rgba(22, 27, 34, 0.95); 
+            backdrop-filter: blur(5px); 
+        }
+    </style>
+</head>
+<body class="p-6 md:p-12 min-h-screen flex items-center justify-center overlay-bg">
+
+    <div class="data-container p-8 md:p-10 rounded-xl shadow-2xl w-full max-w-2xl border border-gray-700">
+        
+        <h1 class="text-3xl md:text-4xl font-bold text-sky-400 mb-6 border-b border-gray-700 pb-3">
+            <span class="mr-2">🛰️</span> Rastreador de la ISS (En Vivo)
+        </h1>
+
+        <
+        <p class="text-sm text-gray-400 mb-4 text-center">
+            Última actualización: <span id="last-updated" class="font-semibold text-yellow-500">Cargando...</span>
+        </p>
+
+
+        
+        <div id="iluminacion-box" class="mb-6 p-4 rounded-lg 
+            {% if "Día" in iluminacion %}
+                bg-yellow-900 border border-yellow-500
+            {% else %}
+                bg-blue-900 border border-blue-500
+            {% endif %}">
+            <p class="text-lg font-semibold">Estado de Vuelo:</p>
+            <p id="iluminacion-display" class="text-2xl mt-1 
+                {% if "Día" in iluminacion %}
+                    text-yellow-300
+                {% else %}
+                    text-blue-300
+                {% endif %}">
+                {{ iluminacion }}
+            </p>
+        </div>
+
+        <div class="mb-8">
+            <p class="text-xl font-semibold mb-2">Ubicación Actual sobre la Tierra:</p>
+            <div class="p-4 bg-[#21262d] rounded-lg min-h-[56px] flex items-center">
+                <p id="lugar-display" class="text-xl text-gray-200">{{ lugar }}</p>
+            </div>
+        </div>
+        
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+            <div class="p-4 bg-[#21262d] rounded-lg">
+                <p class="text-sm text-gray-400">Latitud (Grados)</p>
+                <p id="latitud-display" class="text-xl font-mono text-green-400">{{ latitud }}°</p>
+            </div>
+            <div class="p-4 bg-[#21262d] rounded-lg">
+                <p class="text-sm text-gray-400">Longitud (Grados)</p>
+                <p id="longitud-display" class="text-xl font-mono text-red-400">{{ longitud }}°</p>
+            </div>
+        </div>
+
+        
+        <p class="text-center">
+            <a id="map-link"
+               href="https://www.openstreetmap.org/?mlat={{ latitud }}&mlon={{ longitud }}#map=5/{{ latitud }}/{{ longitud }}" 
+               target="_blank" 
+               class="inline-block px-6 py-3 bg-sky-600 text-white font-semibold rounded-lg shadow-md hover:bg-sky-700 transition duration-300 transform hover:scale-[1.02]">
+                Ver Posición Actual en el Mapa
+            </a>
+        </p>
+
+    </div>
+
+    
+    <script>
+        async function updateISSData() {
+            try {
+                const response = await fetch('/data');
+                if (!response.ok) { throw new Error('Network response was not ok'); }
+                const data = await response.json();
+
+                
+                document.getElementById('latitud-display').textContent = data.latitud + '°';
+                document.getElementById('longitud-display').textContent = data.longitud + '°';
+                document.getElementById('lugar-display').textContent = data.lugar;
+
+                
+                const iluminacionDisplay = document.getElementById('iluminacion-display');
+                const iluminacionBox = document.getElementById('iluminacion-box');
+                
+                iluminacionDisplay.textContent = data.iluminacion;
+
+                iluminacionBox.classList.remove('bg-yellow-900', 'border-yellow-500', 'bg-blue-900', 'border-blue-500');
+                iluminacionDisplay.classList.remove('text-yellow-300', 'text-blue-300');
+
+                if (data.iluminacion.includes('Día')) {
+                    iluminacionBox.classList.add('bg-yellow-900', 'border-yellow-500');
+                    iluminacionDisplay.classList.add('text-yellow-300');
+                } else {
+                    iluminacionBox.classList.add('bg-blue-900', 'border-blue-500');
+                    iluminacionDisplay.classList.add('text-blue-300');
+                }
+
+                
+                const mapLink = document.getElementById('map-link');
+                const newHref = `https://www.openstreetmap.org/?mlat=${data.latitud}&mlon=${data.longitud}#map=5/${data.latitud}/${data.longitud}`;
+                mapLink.href = newHref;
+
+               
+                const now = new Date();
+                document.getElementById('last-updated').textContent = now.toLocaleTimeString();
+
+            } catch (error) {
+                console.error('Error fetching and updating ISS data:', error);
+                document.getElementById('last-updated').textContent = 'Error de conexión.';
+            }
+        }
+
+        
+        updateISSData(); 
+        setInterval(updateISSData, 5000); 
+
+    </script>
+</body>
+</html>
+
+
+
+
