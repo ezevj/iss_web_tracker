@@ -91,4 +91,4 @@ Este proyecto está bajo la Licencia MIT. Consulta el archivo `LICENSE` para má
 
 ## 👨‍💻 Autor
 
-* **Ezequiel VJ** - [GitHub](https://github.com/ezevj)
+* **Ezequiel Velasquez Jeandet ** - [GitHub](https://github.com/ezevj)
