@@ -50,7 +50,7 @@ Sigue estos pasos para poner a funcionar el rastreador en tu máquina local.
 
 #### 1. Clonar el Repositorio
 ```bash
-git clone [TU_URL_DEL_REPOSITORIO]
+git clone [URL_DEL_REPOSITORIO]
 cd iss_web_tracker
 ```
 
