@@ -80,3 +80,9 @@ iss_web_tracker/
 └── templates/ 
 └── index.html # Interfaz, CSS y lógica JavaScript/Leaflet.
 ```
+
+---
+
+## 📜 Licencia
+
+Este proyecto está bajo la Licencia MIT. Consulta el archivo `LICENSE` para más detalles.
