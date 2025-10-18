@@ -66,6 +66,7 @@ python app.py
 
 4. Acceder a la Aplicación
 Abre tu navegador y ve a: http://127.0.0.1:5000/
+red publica : http://192.168.1.139:5000
 
 
 ## 📂 Estructura del Proyecto
