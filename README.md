@@ -13,7 +13,8 @@
 
 ## 🎥 Demostración del Proyecto
 
-<img width="1919" height="1079" alt="fotoiss" src="https://github.com/user-attachments/assets/0d3cefdf-b92b-4149-98a0-f9086ae2332d" />  
+
+<img width="1904" height="1079" alt="pagina_iss_actualizada" src="https://github.com/user-attachments/assets/e3ce5c13-3306-4b1b-9f0f-4e655733a876" />
 
 
 
@@ -21,11 +22,12 @@
 
 ## ✨ Características Principales
 
-* **🛰️ Rastreo en Tiempo Real**: La posición de la ISS se actualiza automáticamente cada 5 segundos sin recargar la página.
-* **🗺️ Mapa Interactivo**: Ubicación precisa sobre un mapa global de Leaflet con un tema oscuro para una mejor inmersión.
+* **🛰️ Rastreo en Tiempo Real**: La posición de la ISS se actualiza automáticamente cada 5 segundos.
+* **🗺️ Mapa Interactivo**: Ubicación precisa sobre un mapa global de Leaflet con un tema oscuro.
+* **🚀 Datos Orbitales Completos**: Muestra la **altitud** (km) y la **velocidad** (km/h) en tiempo real, además de la latitud y longitud.
 * **☀️/🌙 Cálculo de Iluminación**: Determina si la ISS está de día o de noche según su posición.
 * **📍 Geolocalización**: Traduce las coordenadas a una ubicación terrestre conocida (país, océano, etc.).
-* **📱 Diseño Responsivo**: Interfaz moderna y adaptable a cualquier dispositivo, móvil o de escritorio.
+* **📱 Diseño Responsivo**: Interfaz moderna y adaptable a cualquier dispositivo.
 
 ---
 
