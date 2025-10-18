@@ -1,4 +1,4 @@
-# 🛰️ Rastreador en Vivo de la Estación Espacial Internacional (ISS)
+# Proyecto final de programacion 1 🛰️ Rastreador en Vivo de la Estación Espacial Internacional (ISS)
 
 <p align="center">
   <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python"/>
