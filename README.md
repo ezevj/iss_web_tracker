@@ -13,6 +13,9 @@
 
 ## 🎥 Demostración del Proyecto
 
+<img width="1919" height="1079" alt="fotoiss" src="https://github.com/user-attachments/assets/0d3cefdf-b92b-4149-98a0-f9086ae2332d" />  
+
+
 
 ---
 
