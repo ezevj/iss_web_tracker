@@ -6,7 +6,6 @@
     <title>Rastreador en Vivo de la ISS</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
-    
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
          crossorigin=""/>
@@ -16,39 +15,19 @@
     
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Space+Mono&display=swap');
-        
         body {
             font-family: 'Inter', sans-serif;
             background-color: #0d1117; 
             color: #c9d1d9; 
-            background-image: url('https://images.unsplash.com/photo-1502134249126-9f3755a50d78?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+            background-image: url('https://images.unsplash.com/photo-1502134249126-9f3755a50d78?q=80&w=1974&auto=format&fit=crop&ixlib-rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
             background-size: cover; 
             background-attachment: fixed;
             background-position: center; 
         }
-
-        .overlay-bg {
-            background-size: cover; 
-            background-attachment: fixed;
-        }
-
-        .data-container {
-            background-color: rgba(22, 27, 34, 0.95); 
-            backdrop-filter: blur(5px); 
-        }
-        
-       
-        #map {
-            height: 350px; 
-            border-radius: 0.5rem; 
-            border: 1px solid #4a5568; 
-        }
-        
-        
-        .iss-icon {
-            font-size: 28px;
-            text-shadow: 0 0 8px rgba(0,0,0,0.7);
-        }
+        .overlay-bg { background-size: cover; background-attachment: fixed; }
+        .data-container { background-color: rgba(22, 27, 34, 0.95); backdrop-filter: blur(5px); }
+        #map { height: 350px; border-radius: 0.5rem; border: 1px solid #4a5568; }
+        .iss-icon { font-size: 28px; text-shadow: 0 0 8px rgba(0,0,0,0.7); }
     </style>
 </head>
 <body class="p-6 md:p-12 min-h-screen flex items-center justify-center overlay-bg">
@@ -64,7 +43,6 @@
         </p>
 
         <div id="map" class="w-full mb-8"></div>
-
 
         <div id="iluminacion-box" class="mb-6 p-4 rounded-lg 
             {% if "Día" in iluminacion %}
@@ -90,7 +68,6 @@
             </div>
         </div>
         
-        
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
             <div class="p-4 bg-[#21262d] rounded-lg">
                 <p class="text-sm text-gray-400">Latitud (Grados)</p>
@@ -100,14 +77,22 @@
                 <p class="text-sm text-gray-400">Longitud (Grados)</p>
                 <p id="longitud-display" class="text-xl font-mono text-red-400">{{ longitud }}°</p>
             </div>
+            
+            <div class="p-4 bg-[#21262d] rounded-lg">
+                <p class="text-sm text-gray-400">Altitud (km)</p>
+                <p id="altitud-display" class="text-xl font-mono text-cyan-400">{{ altitud }} km</p>
+            </div>
+            
+            <div class="p-4 bg-[#21262d] rounded-lg">
+                <p class="text-sm text-gray-400">Velocidad (km/h)</p>
+                <p id="velocidad-display" class="text-xl font-mono text-orange-400">{{ velocidad }} km/h</p>
+            </div>
         </div>
 
-        
-        </div>
+    </div>
 
     
     <script>
-     
         let map;
         let issMarker;
 
@@ -117,27 +102,24 @@
                 if (!response.ok) { throw new Error('Network response was not ok'); }
                 const data = await response.json();
 
-                
                 const lat = parseFloat(data.latitud);
                 const lon = parseFloat(data.longitud);
 
-               
                 document.getElementById('latitud-display').textContent = data.latitud + '°';
                 document.getElementById('longitud-display').textContent = data.longitud + '°';
+                document.getElementById('altitud-display').textContent = data.altitud + ' km';
+                document.getElementById('velocidad-display').textContent = data.velocidad + ' km/h';
+                
                 document.getElementById('lugar-display').textContent = data.lugar;
 
-              
                 issMarker.setLatLng([lat, lon]);
                 map.panTo([lat, lon]); 
 
                 const iluminacionDisplay = document.getElementById('iluminacion-display');
                 const iluminacionBox = document.getElementById('iluminacion-box');
-                
                 iluminacionDisplay.textContent = data.iluminacion;
-
                 iluminacionBox.classList.remove('bg-yellow-900', 'border-yellow-500', 'bg-blue-900', 'border-blue-500');
                 iluminacionDisplay.classList.remove('text-yellow-300', 'text-blue-300');
-
                 if (data.iluminacion.includes('Día')) {
                     iluminacionBox.classList.add('bg-yellow-900', 'border-yellow-500');
                     iluminacionDisplay.classList.add('text-yellow-300');
@@ -146,7 +128,6 @@
                     iluminacionDisplay.classList.add('text-blue-300');
                 }
 
-             
                 const now = new Date();
                 document.getElementById('last-updated').textContent = now.toLocaleTimeString();
 
@@ -160,22 +141,17 @@
         updateISSData(); 
         setInterval(updateISSData, 5000); 
 
-      
-        
         const initialLat = parseFloat('{{ latitud }}');
         const initialLon = parseFloat('{{ longitud }}');
         
-       
         map = L.map('map').setView([initialLat, initialLon], 3);
 
-        
         L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
             subdomains: 'abcd',
             maxZoom: 19
         }).addTo(map);
 
-      
         const issIcon = L.divIcon({
             className: 'iss-icon', 
             html: '🛰️',
@@ -183,7 +159,6 @@
             iconAnchor: [15, 15] 
         });
 
-        
         issMarker = L.marker([initialLat, initialLon], {
             icon: issIcon
         }).addTo(map);
